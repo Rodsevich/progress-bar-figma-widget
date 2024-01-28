@@ -213,11 +213,12 @@ function Widget() {
   };
 
   return (
-    <Frame
+    <AutoLayout
       name='Progress-Bar'
       overflow='visible'
       width={300}
-      height={'fill-parent'}
+      direction='vertical'
+      spacing={16}
     >
       {/* Prosress Bar */}
       <AutoLayout
@@ -268,195 +269,199 @@ function Widget() {
       </AutoLayout>
 
       {/* Settings */}
-      {isSettingsOpen && progressType === 'target' && (
-        <AutoLayout
-          padding={4}
-          cornerRadius={4}
-          fill={'#FFFFFF'}
-          stroke={'#E6E6E6'}
-          y={32}
-          width={300}
-          direction='vertical'
-        >
-          {/* Count Input */}
-          <AutoLayout verticalAlignItems={'center'} padding={{ left: 3 }}>
-            <Text fontSize={16} horizontalAlignText={'left'}>
-              Count:
-            </Text>
+      {isSettingsOpen && (
+        <AutoLayout>
+          {progressType === 'target' && (
             <AutoLayout
-              verticalAlignItems={'center'}
-              padding={{ left: 8, right: 16 }}
-              horizontalAlignItems='center'
+              padding={4}
+              cornerRadius={4}
+              fill={'#FFFFFF'}
+              stroke={'#E6E6E6'}
+              y={32}
+              width={300}
+              direction='vertical'
             >
-              <SVG
-                src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>`}
-                onClick={() => {
-                  if (count === 0) return;
+              {/* Count Input */}
+              <AutoLayout verticalAlignItems={'center'} padding={{ left: 3 }}>
+                <Text fontSize={16} horizontalAlignText={'left'}>
+                  Count:
+                </Text>
+                <AutoLayout
+                  verticalAlignItems={'center'}
+                  padding={{ left: 8, right: 16 }}
+                  horizontalAlignItems='center'
+                >
+                  <SVG
+                    src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>`}
+                    onClick={() => {
+                      if (count === 0) return;
 
-                  setCount(count - 1);
-                }}
-              ></SVG>
-              <Input
-                name='countInput'
-                fontSize={16}
-                horizontalAlignText='center'
-                onTextEditEnd={(event) => {
-                  setCount(parseInt(event.characters));
-                }}
-                value={count.toString()}
-                width={40}
-                y={100}
-                verticalAlignText='center'
-              />
-              <SVG
-                src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>`}
-                onClick={() => {
-                  if (count === target) return;
+                      setCount(count - 1);
+                    }}
+                  ></SVG>
+                  <Input
+                    name='countInput'
+                    fontSize={16}
+                    horizontalAlignText='center'
+                    onTextEditEnd={(event) => {
+                      setCount(parseInt(event.characters));
+                    }}
+                    value={count.toString()}
+                    width={40}
+                    y={100}
+                    verticalAlignText='center'
+                  />
+                  <SVG
+                    src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>`}
+                    onClick={() => {
+                      if (count === target) return;
 
-                  setCount(count + 1);
-                }}
-              ></SVG>
+                      setCount(count + 1);
+                    }}
+                  ></SVG>
+                </AutoLayout>
+              </AutoLayout>
+
+              {/* Target Input */}
+              <AutoLayout verticalAlignItems={'center'}>
+                <Text fontSize={16}>Target:</Text>
+                <AutoLayout
+                  verticalAlignItems={'center'}
+                  padding={{ left: 8, right: 16 }}
+                  horizontalAlignItems='center'
+                >
+                  <SVG
+                    src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>`}
+                    onClick={() => {
+                      if (target === 0) return;
+
+                      setTarget(target - 1);
+                    }}
+                  ></SVG>
+                  <Input
+                    name='targetInput'
+                    fontSize={16}
+                    horizontalAlignText='center'
+                    onTextEditEnd={(event) => {
+                      setTarget(parseInt(event.characters));
+                    }}
+                    value={target.toString()}
+                    width={40}
+                    y={100}
+                    verticalAlignText='center'
+                  />
+                  <SVG
+                    src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>`}
+                    onClick={() => {
+                      setTarget(target + 1);
+                    }}
+                  ></SVG>
+                </AutoLayout>
+              </AutoLayout>
             </AutoLayout>
-          </AutoLayout>
+          )}
 
-          {/* Target Input */}
-          <AutoLayout verticalAlignItems={'center'}>
-            <Text fontSize={16}>Target:</Text>
-            <AutoLayout
-              verticalAlignItems={'center'}
-              padding={{ left: 8, right: 16 }}
-              horizontalAlignItems='center'
-            >
-              <SVG
-                src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>`}
-                onClick={() => {
-                  if (target === 0) return;
+          {/* TODO LIST */}
+          {progressType === 'todo' && (
+            <AutoLayout y={32} direction='vertical' spacing={8}>
+              {todos.map((todo, index) => (
+                <AutoLayout
+                  key={index}
+                  direction='horizontal'
+                  verticalAlignItems='center'
+                  spacing={8}
+                >
+                  <AutoLayout
+                    width={12}
+                    height={12}
+                    cornerRadius={100}
+                    verticalAlignItems='center'
+                    horizontalAlignItems='center'
+                    fill={getColors()?.backgroundColor}
+                    stroke={getColors()?.borderColor}
+                    hoverStyle={{
+                      fill: getColors()?.hover,
+                    }}
+                    onClick={() => {
+                      const filterOtherTodos = todos.filter(
+                        (_todo) => todo.id !== _todo.id
+                      );
 
-                  setTarget(target - 1);
-                }}
-              ></SVG>
-              <Input
-                name='targetInput'
-                fontSize={16}
-                horizontalAlignText='center'
-                onTextEditEnd={(event) => {
-                  setTarget(parseInt(event.characters));
-                }}
-                value={target.toString()}
-                width={40}
-                y={100}
-                verticalAlignText='center'
-              />
-              <SVG
-                src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>`}
-                onClick={() => {
-                  setTarget(target + 1);
-                }}
-              ></SVG>
-            </AutoLayout>
-          </AutoLayout>
-        </AutoLayout>
-      )}
+                      if (!todo.isChecked) {
+                        setCount(count + 1);
+                      } else if (count >= 1) {
+                        setCount(count - 1);
+                      }
 
-      {/* TODO LIST */}
-      {progressType === 'todo' && (
-        <AutoLayout y={32} direction='vertical' spacing={16}>
-          {todos.map((todo, index) => (
-            <AutoLayout
-              key={index}
-              direction='horizontal'
-              verticalAlignItems='center'
-              spacing={8}
-            >
-              <Rectangle
-                width={12}
-                height={12}
-                cornerRadius={100}
+                      setTodos([
+                        ...filterOtherTodos,
+                        {
+                          ...todo,
+                          isChecked: !todo.isChecked,
+                        },
+                      ]);
+                    }}
+                  >
+                    {todo.isChecked && (
+                      <SVG
+                        positioning='absolute'
+                        y={1.5}
+                        src={`<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${
+                          getColors()?.borderColor
+                        }" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>`}
+                      />
+                    )}
+                  </AutoLayout>
+                  <Input
+                    name={'todo-' + index}
+                    fontSize={12}
+                    horizontalAlignText='left'
+                    textDecoration={todo.isChecked ? 'strikethrough' : 'none'}
+                    onTextEditEnd={(event) => {
+                      const filterOtherTodos = todos.filter(
+                        (_todo) => todo.id !== _todo.id
+                      );
+
+                      setTodos([
+                        ...filterOtherTodos,
+                        {
+                          id: todo.id,
+                          isChecked: false,
+                          value: event.characters,
+                        },
+                      ]);
+                    }}
+                    value={todo.value}
+                    width={progressBarWidth}
+                    verticalAlignText='center'
+                    placeholder='Add todo'
+                  />
+                </AutoLayout>
+              ))}
+
+              <AutoLayout
+                height={24}
+                cornerRadius={8}
                 fill={getColors()?.backgroundColor}
+                onClick={() => handleAddTodo()}
                 stroke={getColors()?.borderColor}
+                horizontalAlignItems='center'
+                verticalAlignItems='center'
+                padding={{
+                  left: 4,
+                  right: 4,
+                }}
                 hoverStyle={{
-                  fill: !todo.isChecked
-                    ? getColors()?.hover
-                    : getColors()?.borderColor,
+                  fill: getColors()?.hover,
                 }}
-                onClick={() => {
-                  const filterOtherTodos = todos.filter(
-                    (_todo) => todo.id !== _todo.id
-                  );
-
-                  if (!todo.isChecked) {
-                    setCount(count + 1);
-                  } else if (count >= 1) {
-                    setCount(count - 1);
-                  }
-
-                  setTodos([
-                    ...filterOtherTodos,
-                    {
-                      ...todo,
-                      isChecked: !todo.isChecked,
-                    },
-                  ]);
-                }}
-              />
-              {todo.isChecked && (
-                <SVG
-                  positioning='absolute'
-                  x={1}
-                  y={3}
-                  src={`<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${
-                    getColors()?.borderColor
-                  }" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>`}
-                />
-              )}
-              <Input
-                name={'todo-' + index}
-                fontSize={12}
-                horizontalAlignText='left'
-                textDecoration={todo.isChecked ? 'strikethrough' : 'none'}
-                onTextEditEnd={(event) => {
-                  const filterOtherTodos = todos.filter(
-                    (_todo) => todo.id !== _todo.id
-                  );
-
-                  setTodos([
-                    ...filterOtherTodos,
-                    {
-                      id: todo.id,
-                      isChecked: false,
-                      value: event.characters,
-                    },
-                  ]);
-                }}
-                value={todo.value}
-                width={progressBarWidth}
-                verticalAlignText='center'
-                placeholder='Add todo'
-              />
+              >
+                <Text fontSize={12}>Add Todo</Text>
+              </AutoLayout>
             </AutoLayout>
-          ))}
-
-          <AutoLayout
-            height={24}
-            cornerRadius={8}
-            fill={getColors()?.backgroundColor}
-            onClick={() => handleAddTodo()}
-            stroke={getColors()?.borderColor}
-            horizontalAlignItems='center'
-            verticalAlignItems='center'
-            padding={{
-              left: 4,
-              right: 4,
-            }}
-            hoverStyle={{
-              fill: getColors()?.hover,
-            }}
-          >
-            <Text fontSize={12}>Add Todo</Text>
-          </AutoLayout>
+          )}
         </AutoLayout>
       )}
-    </Frame>
+    </AutoLayout>
   );
 }
 
