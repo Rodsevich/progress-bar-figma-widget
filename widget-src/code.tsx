@@ -16,6 +16,10 @@ const {
 
 function Widget() {
   const [count, setCount] = useSyncedState('count', 0);
+  const [isPercentVisible, setIsPercentVisible] = useSyncedState(
+    'isPercentVisible',
+    false
+  );
   const [progressType, setProgressType] = useSyncedState(
     'progressType',
     'target'
@@ -158,6 +162,12 @@ function Widget() {
       },
       {
         itemType: 'toggle',
+        propertyName: 'isPercentVisible',
+        tooltip: 'Percentage',
+        isToggled: false,
+      },
+      {
+        itemType: 'toggle',
         propertyName: 'settings',
         tooltip: 'Settings',
         isToggled: false,
@@ -176,6 +186,8 @@ function Widget() {
         setCount(0);
         setTarget(0);
         setProgressType(propertyValue ?? 'target');
+      } else if (propertyName === 'isPercentVisible') {
+        setIsPercentVisible(!isPercentVisible);
       } else if (propertyName === 'settings') {
         setIsSettingsOpen(!isSettingsOpen);
       }
@@ -188,15 +200,17 @@ function Widget() {
     return `${timestamp}-${random}`;
   };
 
+  const progressPercentage = () => {
+    return (count / target) * 100;
+  };
+
   const calculateProgressBarWidth = () => {
     if (target === 0) {
       return 0;
     }
 
-    const progressPercentage = (count / target) * 100;
-
     const maxWidth = progressBarWidth;
-    const width = (progressPercentage / 100) * maxWidth;
+    const width = (progressPercentage() / 100) * maxWidth;
 
     return width;
   };
@@ -246,26 +260,48 @@ function Widget() {
             height={24}
           ></AutoLayout>
         )}
-        <Text
-          positioning='absolute'
-          width={progressBarWidth}
-          height={24}
-          horizontalAlignText='left'
-          verticalAlignText='center'
-          x={{ type: 'left', offset: 4 }}
-        >
-          {count}
-        </Text>
-        <Text
-          positioning='absolute'
-          width={progressBarWidth}
-          height={24}
-          horizontalAlignText='right'
-          verticalAlignText='center'
-          x={{ type: 'right', offset: 4 }}
-        >
-          {target}
-        </Text>
+
+        {isPercentVisible && (
+          <AutoLayout
+            width={progressBarWidth}
+            height={24}
+            horizontalAlignItems='center'
+            verticalAlignItems='center'
+            positioning='absolute'
+          >
+            <Text>{progressPercentage().toFixed(0)}%</Text>
+          </AutoLayout>
+        )}
+
+        {!isPercentVisible && (
+          <AutoLayout
+            width={progressBarWidth}
+            height={24}
+            verticalAlignItems='center'
+            positioning='absolute'
+          >
+            <AutoLayout
+              positioning='absolute'
+              height={24}
+              width={progressBarWidth}
+              horizontalAlignItems='start'
+              verticalAlignItems='center'
+              padding={{ left: 8 }}
+            >
+              <Text>{count}</Text>
+            </AutoLayout>
+            <AutoLayout
+              positioning='absolute'
+              height={24}
+              width={progressBarWidth}
+              horizontalAlignItems='end'
+              verticalAlignItems='center'
+              padding={{ right: 8 }}
+            >
+              <Text>{target}</Text>
+            </AutoLayout>
+          </AutoLayout>
+        )}
       </AutoLayout>
 
       {/* Settings */}
