@@ -56,7 +56,6 @@ function Widget() {
     { option: '4', label: '4px' },
     { option: '8', label: '8px' },
     { option: '16', label: '16px' },
-    { option: '32', label: '32px' },
   ];
 
   const backgroundAndBorderColors = [
@@ -448,6 +447,7 @@ function Widget() {
                       />
                     )}
                   </AutoLayout>
+
                   <Input
                     name={'todo-' + index}
                     fontSize={12}
@@ -468,10 +468,20 @@ function Widget() {
                       ]);
                     }}
                     value={todo.value}
-                    width={progressBarWidth}
+                    width={progressBarWidth - 44}
                     verticalAlignText='center'
                     placeholder='Add todo'
                   />
+                  <SVG
+                    opacity={0.2}
+                    hoverStyle={{
+                      opacity: 0.5,
+                    }}
+                    src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2c2c2c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-circle"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`}
+                    onClick={() => {
+                      setTodos(todos.filter((t) => t.id !== todo.id));
+                    }}
+                  ></SVG>
                 </AutoLayout>
               ))}
 
