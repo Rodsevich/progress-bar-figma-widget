@@ -1,17 +1,20 @@
+import {
+  backgroundAndBorderColors,
+  borderRadiusOptions,
+  colorOptions,
+  progressBarWidthOptions,
+} from './style-options';
+
 const { widget } = figma;
 
 const {
   useSyncedState,
   usePropertyMenu,
   useStickable,
-  useEffect,
-  waitForTask,
   AutoLayout,
   Text,
   SVG,
   Input,
-  Frame,
-  Rectangle,
 } = widget;
 
 function Widget() {
@@ -42,76 +45,6 @@ function Widget() {
     { id: string; isChecked: boolean; value: string | null }[]
   >('todos', []);
 
-  const colorOptions = [
-    { option: '#e6e6e6', tooltip: 'Light-grey' },
-    { option: '#f24822', tooltip: 'Red' },
-    { option: '#ffcd29', tooltip: 'Yellow' },
-    { option: '#15ae5c', tooltip: 'Green' },
-    { option: '#0d9aff', tooltip: 'Blue' },
-    { option: '#9746ff', tooltip: 'Violet' },
-    { option: '#2c2c2c', tooltip: 'Black' },
-  ];
-
-  const borderRadiusOptions = [
-    { option: '4', label: '4px' },
-    { option: '8', label: '8px' },
-    { option: '16', label: '16px' },
-  ];
-
-  const backgroundAndBorderColors = [
-    {
-      label: 'light-grey',
-      backgroundColor: '#fbfbf9',
-      borderColor: '#e6e6e6',
-      hover: '#e2e2e2',
-    },
-    {
-      label: 'red',
-      backgroundColor: '#fee4de',
-      borderColor: '#f24822',
-      hover: '#ffd0c5',
-    },
-    {
-      label: 'yellow',
-      backgroundColor: '#fffcf1',
-      borderColor: '#ffcd29',
-      hover: '#f9f2d6',
-    },
-    {
-      label: 'green',
-      backgroundColor: '#dcf3e6',
-      borderColor: '#15ae5c',
-      hover: '#caf2db',
-    },
-    {
-      label: 'blue',
-      backgroundColor: '#dbf1ff',
-      borderColor: '#0d9aff',
-      hover: '#c6e9ff',
-    },
-    {
-      label: 'violet',
-      backgroundColor: '#efe3ff',
-      borderColor: '#9746ff',
-      hover: '#dfcafb',
-    },
-    {
-      label: 'black',
-      backgroundColor: '#dddddd',
-      borderColor: '#2c2c2c',
-      hover: '#c4c4c4',
-    },
-  ];
-
-  const progressBarWidthOptions = [
-    { option: '100', label: 'Tiny' },
-    { option: '125', label: 'Small' },
-    { option: '150', label: 'Medium' },
-    { option: '200', label: 'Large' },
-    { option: '300', label: 'Extra Large' },
-    { option: '500', label: 'Huge' },
-  ];
-
   useStickable();
 
   usePropertyMenu(
@@ -141,15 +74,6 @@ function Widget() {
         itemType: 'separator',
       },
       {
-        itemType: 'action',
-        propertyName: 'reset',
-        tooltip: 'Reset',
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>`,
-      },
-      {
-        itemType: 'separator',
-      },
-      {
         itemType: 'dropdown',
         propertyName: 'progressType',
         tooltip: 'Type',
@@ -162,14 +86,24 @@ function Widget() {
       {
         itemType: 'toggle',
         propertyName: 'isPercentVisible',
-        tooltip: 'Percentage',
+        tooltip: `Change to ${isPercentVisible ? 'Target' : 'Percentage'} `,
         isToggled: false,
+        icon: isPercentVisible
+          ? `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`
+          : `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-percent"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`,
+      },
+      {
+        itemType: 'action',
+        propertyName: 'reset',
+        tooltip: 'Reset',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>`,
       },
       {
         itemType: 'toggle',
         propertyName: 'settings',
         tooltip: 'Settings',
         isToggled: false,
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>`,
       },
     ],
     ({ propertyName, propertyValue }) => {
@@ -181,6 +115,13 @@ function Widget() {
         setProgressBarWidth(parseInt(propertyValue ?? '100'));
       } else if (propertyName === 'reset') {
         setCount(0);
+
+        if (progressType === 'todo') {
+          setTarget(0);
+          setTodos([]);
+        } else {
+          setTarget(100);
+        }
       } else if (propertyName === 'progressType') {
         setCount(0);
         setTarget(0);
@@ -200,6 +141,8 @@ function Widget() {
   };
 
   const progressPercentage = () => {
+    if (count === 0 && target === 0) return 0;
+
     return (count / target) * 100;
   };
 
@@ -480,6 +423,8 @@ function Widget() {
                     src={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2c2c2c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-circle"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`}
                     onClick={() => {
                       setTodos(todos.filter((t) => t.id !== todo.id));
+
+                      setTarget(target - 1);
                     }}
                   ></SVG>
                 </AutoLayout>
