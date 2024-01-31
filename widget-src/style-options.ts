@@ -14,6 +14,11 @@ export const borderRadiusOptions = [
   { option: '16', label: '16px' },
 ];
 
+export const progressTypeOptions = [
+  { label: 'Target', option: 'target' },
+  { label: 'Todo', option: 'todo' },
+];
+
 export const backgroundAndBorderColors = [
   {
     label: 'light-grey',

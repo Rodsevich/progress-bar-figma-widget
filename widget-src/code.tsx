@@ -1,8 +1,10 @@
+import { generateUniqueId } from './progress-bar.utils';
 import {
   backgroundAndBorderColors,
   borderRadiusOptions,
   colorOptions,
   progressBarWidthOptions,
+  progressTypeOptions,
 } from './style-options';
 
 const { widget } = figma;
@@ -78,10 +80,7 @@ function Widget() {
         propertyName: 'progressType',
         tooltip: 'Type',
         selectedOption: progressType,
-        options: [
-          { label: 'Target', option: 'target' },
-          { label: 'Todo', option: 'todo' },
-        ],
+        options: progressTypeOptions,
       },
       {
         itemType: 'toggle',
@@ -133,12 +132,6 @@ function Widget() {
       }
     }
   );
-
-  const generateUniqueId = () => {
-    const timestamp = new Date().getTime();
-    const random = Math.floor(Math.random() * 1000); // Adjust the range as needed
-    return `${timestamp}-${random}`;
-  };
 
   const progressPercentage = () => {
     if (count === 0 && target === 0) return 0;
