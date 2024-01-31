@@ -18,7 +18,6 @@ const {
 } = widget;
 
 function Widget() {
-  const [count, setCount] = useSyncedState('count', 0);
   const [isPercentVisible, setIsPercentVisible] = useSyncedState(
     'isPercentVisible',
     false
@@ -27,6 +26,7 @@ function Widget() {
     'progressType',
     'target'
   );
+  const [count, setCount] = useSyncedState('count', 0);
   const [target, setTarget] = useSyncedState(
     'target',
     progressType === 'target' ? 100 : 0
@@ -397,18 +397,11 @@ function Widget() {
                     horizontalAlignText='left'
                     textDecoration={todo.isChecked ? 'strikethrough' : 'none'}
                     onTextEditEnd={(event) => {
-                      const filterOtherTodos = todos.filter(
-                        (_todo) => todo.id !== _todo.id
+                      const updatedTodos = todos.map((t) =>
+                        t.id === todo.id ? { ...t, value: event.characters } : t
                       );
 
-                      setTodos([
-                        ...filterOtherTodos,
-                        {
-                          id: todo.id,
-                          isChecked: false,
-                          value: event.characters,
-                        },
-                      ]);
+                      setTodos(updatedTodos);
                     }}
                     value={todo.value}
                     width={progressBarWidth - 44}
