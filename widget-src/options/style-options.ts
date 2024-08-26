@@ -15,7 +15,7 @@ export const borderRadiusOptions = [
 ];
 
 export const progressTypeOptions = [
-  { label: 'Target', option: 'target' },
+  { label: 'Target', option: 'objectivo' },
   { label: 'Todo', option: 'todo' },
 ];
 
@@ -71,4 +71,13 @@ export const progressBarWidthOptions = [
   { option: '200', label: 'Large' },
   { option: '300', label: 'Extra Large' },
   { option: '500', label: 'Huge' },
+];
+
+export const progressBarHeightOptions = [
+  { option: '5', label: 'Tiny' },
+  { option: '10', label: 'Small' },
+  { option: '24', label: 'Medium' },
+  { option: '30', label: 'Large' },
+  { option: '40', label: 'Extra Large' },
+  { option: '60', label: 'Huge' },
 ];
