@@ -1,6 +1,6 @@
 {
-  "name": "progress-bar",
-  "id": "1332438210716781364",
+  "name": "Grello",
+  "id": "1410664553658763233",
   "api": "1.0.0",
   "main": "dist/code.js",
   "capabilities": [],
@@ -9,12 +9,17 @@
     "figma",
     "figjam"
   ],
+  "documentAccess": "dynamic-page",
   "permissions": ["currentuser"],
   "containsWidget": true,
   "widgetApi": "1.0.0",
   "networkAccess": {
     "allowedDomains": [
-      "https://s3-alpha.figma.com"
-    ]
+      "https://s3-alpha.figma.com",
+      "http://localhost:3000",
+      "https://ca.slack-edge.com/",
+      "https://picsum.photos/"
+    ],
+    "reasoning": "Allow access to localhost for development purposes."
   }
-}
+} 

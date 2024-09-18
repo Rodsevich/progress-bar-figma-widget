@@ -1,4 +1,5 @@
-import useBarraProgreso from "./useBarraProgreso"
+import {useReport, useWidgetApp} from './index';
+import { iconoObjectivo, iconoPorcentaje, iconoRestar,iconoConfiguracion, iconoPlay, iconoSaveDay} from '../icons/index';
 import { 
     borderRadiusOptions,
     colorOptions,
@@ -6,9 +7,8 @@ import {
     progressTypeOptions,
     progressBarHeightOptions,
 } from "../options/style-options";
-import { iconoObjectivo, iconoPorcentaje, iconoRestar,iconoConfiguracion} from '../icons/index';
 
-const useMenu = () => {
+export const useMenu = () => {
 
 	const {
 		setContador,
@@ -21,102 +21,102 @@ const useMenu = () => {
         configuracionAbierta, setConfiguracionAbierta,
         anchoBarraProgreso, setAnchoBarraProgreso,
         largoBarraProgreso, setLargoBarraProgreso,
-	} = useBarraProgreso();
+		generate,
+	} = useWidgetApp();
 
+	const {guardarReporte} = useReport()
 
 	const optionsMenuProgressBar: WidgetPropertyMenuItem[] =   [
-		{
-			itemType: 'color-selector',
-			propertyName: 'colors',
-			tooltip: 'Color selector',
-			selectedOption: color,
-			options: colorOptions,
-		},
-		{
-			itemType: 'dropdown',
-			propertyName: 'widths',
-			tooltip: 'Width',
-			selectedOption: anchoBarraProgreso.toString(),
-			options: progressBarWidthOptions,
-		},
-		{
-			itemType: 'dropdown',
-			propertyName: 'heights',
-			tooltip: 'Height',
-			selectedOption: largoBarraProgreso.toString(),
-			options: progressBarHeightOptions,
-		},
-		{
-			itemType: 'dropdown',
-			propertyName: 'borderRadius',
-			tooltip: 'Border radius',
-			selectedOption: borderRadius,
-			options: borderRadiusOptions,
-		},
-		{
-			itemType: 'separator',
-		},
-		{
-			itemType: 'dropdown',
-			propertyName: 'tipoProgreso',
-			tooltip: 'Type',
-			selectedOption: tipoProgreso,
-			options: progressTypeOptions,
-		},
+		// {
+		// 	itemType: 'color-selector',
+		// 	propertyName: 'colors',
+		// 	tooltip: 'Color selector',
+		// 	selectedOption: color,
+		// 	options: colorOptions,
+		// },
 		{
 			itemType: 'toggle',
-			propertyName: 'esPorcentajeVisible',
-			tooltip: `Change to ${esPorcentajeVisible ? 'Target' : 'Percentage'} `,
+			propertyName: 'generateDay',
+			tooltip: 'Generar día',
 			isToggled: false,
-			icon: esPorcentajeVisible ? iconoObjectivo : iconoPorcentaje,
+			icon: iconoPlay,
 		},
 		{
 			itemType: 'action',
 			propertyName: 'reset',
-			tooltip: 'Reset',
+			tooltip: 'Reiniciar',
 			icon: iconoRestar,
+		},
+		// {
+		// 	itemType: 'dropdown',
+		// 	propertyName: 'widths',
+		// 	tooltip: 'Width',
+		// 	selectedOption: anchoBarraProgreso.toString(),
+		// 	options: progressBarWidthOptions,
+		// },
+		// {
+		// 	itemType: 'dropdown',
+		// 	propertyName: 'heights',
+		// 	tooltip: 'Height',
+		// 	selectedOption: largoBarraProgreso.toString(),
+		// 	options: progressBarHeightOptions,
+		// },
+		// {
+		// 	itemType: 'dropdown',
+		// 	propertyName: 'borderRadius',
+		// 	tooltip: 'Border radius',
+		// 	selectedOption: borderRadius,
+		// 	options: borderRadiusOptions,
+		// },
+		{
+			itemType: 'separator',
+		},
+		// {
+		// 	itemType: 'dropdown',
+		// 	propertyName: 'tipoProgreso',
+		// 	tooltip: 'Type',
+		// 	selectedOption: tipoProgreso,
+		// 	options: progressTypeOptions,
+		// },
+		// {
+		// 	itemType: 'toggle',
+		// 	propertyName: 'esPorcentajeVisible',
+		// 	tooltip: `Change to ${esPorcentajeVisible ? 'Target' : 'Percentage'} `,
+		// 	isToggled: false,
+		// 	icon: esPorcentajeVisible ? iconoObjectivo : iconoPorcentaje,
+		// },
+		{
+			itemType: 'action',
+			propertyName: 'saveDay',
+			tooltip: 'Guardar día',
+			icon: iconoSaveDay,
 		},
 		{
 			itemType: 'toggle',
 			propertyName: 'settings',
-			tooltip: 'Settings',
+			tooltip: 'Configuración',
 			isToggled: false,
 			icon: iconoConfiguracion,
 		},
 	]
 
-	const handlePropertyChange = ({ propertyName, propertyValue }: WidgetPropertyEvent ):void => {
+	const handlePropertyChange = async({ propertyName, propertyValue }: WidgetPropertyEvent ) => {
         if (propertyName === 'colors') {
             setColor(propertyValue ?? '#e06666');
-        } else if (propertyName === 'borderRadius') {
-            setBorderRadius(propertyValue ?? '4');
-        } else if (propertyName === 'widths') {
-            setAnchoBarraProgreso(parseInt(propertyValue ?? '100'));
-        } else if (propertyName === 'heights') {
-            setLargoBarraProgreso(parseInt(propertyValue ?? '24'));
-        } else if (propertyName === 'reset') {
-            setContador(0);
-            if (tipoProgreso === 'todo') {
-                setObjectivos(0);
-                setTareas([]);
-            } else {
-                setObjectivos(100);
-            }
-        } else if (propertyName === 'tipoProgreso') {
-            setContador(0);
-            setObjectivos(0);
-            setTipoProgreso(propertyValue ?? 'objectivo');
-        } else if (propertyName === 'esPorcentajeVisible') {
-            setEsPorcentajeVisible(!esPorcentajeVisible);
-        } else if (propertyName === 'settings') {
-            setConfiguracionAbierta(!configuracionAbierta);
         }
+		else if(propertyName === 'generateDay'){
+			await generate('new');
+		}
+		else if(propertyName === 'reset'){
+			await generate('reset');
+		}
+		else if(propertyName === 'saveDay'){
+			await guardarReporte()
+		}
     };
 
 	return {
 		optionsMenuProgressBar,
 		handlePropertyChange,
 	}
-}
-
-export default useMenu;
+};

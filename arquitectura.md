@@ -15,7 +15,7 @@ Como se ve en el ejemplo, El valor del estado es castellano junto con la funcion
 
 ### Hooks
 ```javascript
-const {} = useBarraProgreso();
+const {} = useWidgetApp();
 ```
 En estos ejemplos se aplica la misma convecion que la anterio, pero en este caso permanece el "use"
 
