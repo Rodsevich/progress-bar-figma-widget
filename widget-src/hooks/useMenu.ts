@@ -88,7 +88,7 @@ export const useMenu = () => {
 		{
 			itemType: 'action',
 			propertyName: 'saveDay',
-			tooltip: 'Guardar día',
+			tooltip: 'Fijar día',
 			icon: iconoSaveDay,
 		},
 		{
